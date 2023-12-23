@@ -85,26 +85,29 @@ def initialize_trial_handler(block):
         nReps=1, method='sequential', trialList=data.importConditions(block)
         )
 
-def add_trial_data(trial, stim_onset, end_time):
+
+def add_trial_data(stim_onset, end_time):
     '''
-    Handles adding trial data to excel output file.
+    Handles adding some trial data to excel output file.
     
     Parameters:
-    trial (dict): a dictionary containing trial information.
+    stim_onset (float): time in milliseconds at which stimulus was displayed.
+    end_time (float): time in milliseconds at which the trial ended.
     '''
     thisExp.addData('block', block_count)
     thisExp.addData('trial', trial_count)
     thisExp.addData('stim_onset', stim_onset*1000)
     thisExp.addData('trial_duration', end_time)
 
-def append_instructions():
+
+def append_instructions(INSTRUCTIONS):
     instr1 = "Welcome to the Flanker Task."
-    instr2 = "This is a fish!\n\nA fish has a MOUTH and a TAIL\n[point to mouth and tail]\n\nThe fish is pointing the same way the MOUTH is pointing.\n[point right]
+    instr2 = "This is a fish!\n\nA fish has a MOUTH and a TAIL\n[point to mouth and tail]\n\nThe fish is pointing the same way the MOUTH is pointing.\n[point right]"
     instr3 = "Here is a MIDDLE fish! Can you point to the MIDDLE Fish?"
     instr4 = "Where is the MIDDLE fish here?"
     instr5 = "Look at all the Fish!!!\n\nThe Fish in the MIDDLE is hungry."
-    instr6 = "To feed the MIDDLE Fish,\npress the fuzzy button that matches the way the MIDDLE Fish is pointing."
-    instr7 = "If the MIDDLE Fish is pointing this way, press this fuzzy button."
+    instr6 = "To feed the MIDDLE Fish,\npress the yellow button that matches the way the MIDDLE Fish is pointing."
+    instr7 = "If the MIDDLE Fish is pointing this way, press this yellow button."
     instr8 = "Sometimes all the Fish will point the same way.\nSometimes the MIDDLE Fish will point a different way from his friends,\nlike this [point to the way middle fish is pointing]\n\nYou should always press the button that matches the way the MIDDLE Fish is pointing."
     instr9 = "Let me show you how to play!"
     instr10 = "Here the MIDDLE Fish is pointing this way, so I'll press this button."
