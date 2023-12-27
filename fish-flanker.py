@@ -65,7 +65,7 @@ fish2 = visual.ImageStim(window, pos=(-.5, 0))  # left fish
 fish3 = visual.ImageStim(window, pos=(0, 0))  # middle fish
 fish4 = visual.ImageStim(window, pos=(.5, 0))  # right fish
 fish5 = visual.ImageStim(window, pos=(1, 0))  # right right fish
-background_box = visual.rect.Rect(window, pos=(0, 0), size=(1, .5), color='white')
+background_box = visual.rect.Rect(window, pos=(0, .17), size=(2, .66), color='white')
 
 # Initialize instructions list
 instructions = []
@@ -100,7 +100,7 @@ def add_trial_data(stim_onset, end_time):
     thisExp.addData('trial_duration', end_time)
 
 
-def append_instructions(INSTRUCTIONS):
+def append_instructions(instructions):
     instr1 = "Welcome to the Flanker Task."
     instr2 = "This is a fish!\n\nA fish has a MOUTH and a TAIL\n[point to mouth and tail]\n\nThe fish is pointing the same way the MOUTH is pointing.\n[point right]"
     instr3 = "Here is a MIDDLE fish! Can you point to the MIDDLE Fish?"
@@ -116,10 +116,48 @@ def append_instructions(INSTRUCTIONS):
     instr13 = "GOOD JOB! Now you get to play on your own without my help\n\nRemember, keep your eyes on the screen\nand try to answer as fast as you can without making mistakes.\nIf you make a mistake, just keep going!"
     instr14 = "Now you will do the same thing, but you will see arrows instead of fish.\n\nRemember, keep your eyes on the screen\nand try to answer as fast as you can without making mistakes."
 
-    INSTRUCTIONS.append(
+    instructions.append(
         instr1, instr2, instr3, instr4, instr5, instr6, instr7, instr8, instr9, instr10, instr11, instr12, instr13, instr14
         )
 
+def practice_block(instructions):
+    continue_routine = True
+    instruction_index = 0
+    top_pos = (0, .5)
+    bottom_pos = (0, -.33)
+    if instruction_index == 0:
+        text_stim.pos(top_pos)
+    elif instruction_index == 1:
+        text_stim.pos(bottom_pos)
+        fish3.setImage(instruction_fish)
+    elif instruction_index == 2:
+        text_stim.pos(bottom_pos)
+    elif 2 < instruction_index <= 6:
+        text_stim.pos(bottom_pos)
+        fish1.setImage(left_fish)
+        fish2.setImage(left_fish)
+        fish3.setImage(left_fish)
+        fish4.setImage(left_fish)
+        fish5.setImage(left_fish)
+    elif instruction_index == 6:
+        text_stim.pos(bottom_pos)
+    if instruction_index != 14:
+        while continue_routine:
+            text_stim.setText(INSTRUCTIONS[instruction_index])
+            text_stim.draw()
+            if instruction_index == 1:
+                fish3.draw()
+            if 2 < instruction_index <= 6:
+                fish1.draw()
+                fish2.draw()
+                fish3.draw()
+                fish4.draw()
+                fish5.draw()
+            keys = kb.waitKey(['space'])
+            if keys == True:
+                instruction_index += 1
+                break
+        practice_block(INSTRUCTIONS)
 
 def run_fixation():
     cd_timer.add(2)
@@ -287,9 +325,13 @@ def run_case4(trial, trial_clock):
 block_files = ['conditions.xlsx']
 block_count = 1
 
+background_box.draw()
+
+for instruction in instructions:
+
+
 for block in block_files:
     trials = initialize_trial_handler(block)
-
     trial_count = 1
     trial_clock = core.Clock()
     global_clock.reset()
